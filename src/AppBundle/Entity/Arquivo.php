@@ -29,7 +29,7 @@ class Arquivo
     /**
      * @var string
      *
-     * @ORM\Column(name="nomeArquivo", type="string", length=255)
+     * @ORM\Column(name="nome_arquivo", type="string", length=255)
      */
     private $nomeArquivo;
 
@@ -46,7 +46,7 @@ class Arquivo
     /**
      * @var string
      *
-     * @ORM\Column(name="mimeTypeArquivo", type="string", length=255)
+     * @ORM\Column(name="mime_type_arquivo", type="string", length=255)
      */
     private $mimeTypeArquivo;
 
@@ -57,6 +57,11 @@ class Arquivo
      */
     private $nome;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Exame", inversedBy="arquivos")
+     * @ORM\JoinColumn(name="exame_id", referencedColumnName="id")
+     */
+    private $exame;
 
     /**
      * Get id
@@ -154,6 +159,14 @@ class Arquivo
     public function setArquivoVich($arquivoVich)
     {
         $this->arquivoVich = $arquivoVich;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExame()
+    {
+        return $this->exame;
     }
 
 }
