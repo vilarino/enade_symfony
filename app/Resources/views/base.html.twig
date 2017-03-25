@@ -14,8 +14,11 @@
         <div class="container">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ path('arquivo_index') }}">Planilhas enade</a></li>
+                    <li><a href="{{ path('exame_index') }}">Exames</a></li>
                 </ul>
+                {#<ul class="nav navbar-nav">
+                    <li><a href="{{ path('arquivo_index') }}">Planilhas enade</a></li>
+                </ul>#}
                 <ul class="nav navbar-nav">
                     <li><a href="#">Sobre</a></li>
                 </ul>
@@ -24,6 +27,7 @@
     </div>
 </nav>
 <div class="container">
+    {{ wo_render_breadcrumbs() }}
     {% block body %}
 
     {% endblock %}

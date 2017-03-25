@@ -18,7 +18,8 @@
         <div class="col-md-12">
             {{ form_widget(form.save, { 'attr': {'class': 'btn btn-sm btn-success','row':'20'}}) }}
             ou
-            <a class="btn btn-sm btn-default" href="{{ path('arquivo_index') }}">Lista de arquivos</a>
+            <a class="btn btn-sm btn-default" href="{{ path('arquivo_index', {'exame' : arquivo.exame.id}) }}">Lista de
+                arquivos</a>
         </div>
     </div>
 

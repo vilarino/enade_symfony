@@ -1,43 +1,53 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Arquivos list</h1>
 
-    <table>
+    <h1 class="page-header">
+        <span>
+            Planilhas
+        </span>
+
+        <span style="float: right"><a href="{{ path("arquivo_new",{'exame': exame.id}) }}" class="btn btn-primary">
+                    Nova Planilha
+                </a>
+            </span>
+    </h1>
+
+    <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nomearquivo</th>
-                <th>Mimetypearquivo</th>
-                <th>Nome</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            {#<th>Id</th>#}
+            <th>Nomearquivo</th>
+            <th>Mimetypearquivo</th>
+            <th>Nome</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-        {% for arquivo in arquivos %}
+        {% for arquivo in exame.arquivos %}
             <tr>
-                <td><a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">{{ arquivo.id }}</a></td>
+                {#<td><a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">{{ arquivo.id }}</a></td>#}
                 <td>{{ arquivo.nomeArquivo }}</td>
                 <td>{{ arquivo.mimeTypeArquivo }}</td>
                 <td>{{ arquivo.nome }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('arquivo_edit', { 'id': arquivo.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                {#<td>#}
+                    {#<ul>#}
+                        {#<li>#}
+                            {#<a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">show</a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a href="{{ path('arquivo_edit', { 'exame': arquivo.id }) }}">edit</a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</td>#}
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('arquivo_new') }}">Create a new arquivo</a>
-        </li>
-    </ul>
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('arquivo_new') }}">Create a new arquivo</a>#}
+        {#</li>#}
+    {#</ul>#}
 {% endblock %}

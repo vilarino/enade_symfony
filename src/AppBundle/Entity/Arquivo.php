@@ -169,5 +169,14 @@ class Arquivo
         return $this->exame;
     }
 
+    /**
+     * @param mixed $exame
+     */
+    public function setExame($exame)
+    {
+        $this->exame = $exame;
+    }
+
+
 }
 

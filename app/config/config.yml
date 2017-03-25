@@ -81,3 +81,10 @@ vich_uploader:
                 inject_on_load:     false
                 delete_on_update:   true
                 delete_on_remove:   true
+
+white_october_breadcrumbs:
+    separator:          '/'
+    separatorClass:     'separator'
+    listId:             'wo-breadcrumbs'
+    listClass:          'breadcrumb'
+#    viewTemplate:       'WhiteOctoberBreadcrumbsBundle::breadcrumbs.html.twig'

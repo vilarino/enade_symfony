@@ -30,8 +30,7 @@ class Exame
     private $descricao;
 
     /**
-     * One Product has Many Features.
-     * @ORM\OneToMany(targetEntity="Arquivo", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Arquivo", mappedBy="exame", cascade={"all"})
      */
     private $arquivos;
 
@@ -103,6 +102,22 @@ class Exame
     public function getAno()
     {
         return $this->ano;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArquivos()
+    {
+        return $this->arquivos;
+    }
+
+    /**
+     * @param Arquivo $arquivo
+     */
+    public function addArquivo(Arquivo $arquivo)
+    {
+        $this->arquivos->add($arquivo);
     }
 }
 

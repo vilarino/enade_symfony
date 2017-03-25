@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="page-header">
+        <span>
+            Exames
+        </span>
+
+        <span style="float: right"><a href="{{ path("exame_new") }}" class="btn btn-primary">
+                    Novo Exame
+                </a>
+            </span>
+    </h1>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Descricao</th>
+            <th>Ano</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for exame in exames %}
+            <tr>
+                <td><a href="{{ path('exame_show', { 'id': exame.id }) }}">{{ exame.id }}</a></td>
+                <td>{{ exame.descricao }}</td>
+                <td>{{ exame.ano }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('exame_show', { 'id': exame.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('exame_edit', { 'id': exame.id }) }}">edit</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('arquivo_index', { 'exame':exame.id }) }}">planilhas</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
