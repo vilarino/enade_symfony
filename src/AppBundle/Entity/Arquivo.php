@@ -63,6 +63,13 @@ class Arquivo
      */
     private $exame;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tipo")
+     * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     */
+    private $tipo;
+
     /**
      * Get id
      *
@@ -177,6 +184,21 @@ class Arquivo
         $this->exame = $exame;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
 
 }
 

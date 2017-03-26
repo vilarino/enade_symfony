@@ -1,21 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Exame edit</h1>
-
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('exame_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block stylesheets %}
+    <link href="{{ asset('bundles/app/assets/css/sweetalert.css') }}" rel="stylesheet">
+    <script src="{{ asset('bundles/app/assets/js/sweetalert.min.js') }}"></script>
 {% endblock %}
+
+{% block body %}
+
+    {{ form_start(edit_form, {'attr': {'class' : 'form-horizontal'}}) }}
+    <legend>Novo Exame</legend>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">{{ form_label(edit_form.descricao) }}</label>
+        <div class="col-lg-10">
+            {{ form_widget(edit_form.descricao, {'attr':{'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label">{{ form_label(edit_form.ano) }}</label>
+        <div class="col-lg-10">
+            {{ form_widget(edit_form.ano, {'attr':{'class' : 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-8 col-lg-offset-2">
+            {{ form_widget(edit_form.save, { 'attr': {'class': 'btn btn-sm btn-success','row':'20'}}) }}
+            ou
+            <a class="btn btn-sm btn-warning" href="{{ path('exame_index') }}">Lista de
+                exames</a>
+        </div>
+        <div class="col-lg-2">
+            <td>
+                <a href="javascript:;" exame-id="{{ exame.id }}" data-toggle="tooltip"
+                   data-container="body"
+                   class="btn btn-sm btn-danger delete-exame pull-right"
+                   data-title="Excluir"> Deletar
+                </a>
+            </td>
+            {#{{ form_start(delete_form) }}#}
+            {#<input class="btn btn-sm btn-danger pull-right" type="submit" value="Delete">#}
+            {#{{ form(delete_form._token) }}#}
+            {#{{ form_end(delete_form) }}#}
+        </div>
+    </div>
+    {{ form(edit_form._token) }}
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete-exame').click(function () {
+                var id = $(this).attr("exame-id");
+
+                swal({
+                    title: "Tem certeza que deseja excluir este exame?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Excluir",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.replace(Routing.generate('exame_delete', {id: id}));
+                });
+
+            });
+        });
+    </script>
+{% endblock %}
+

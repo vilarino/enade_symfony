@@ -47,7 +47,7 @@ class ExameController extends Controller
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addRouteItem("Home", "homepage");
         $breadcrumbs->addRouteItem("Exame", "exame_index");
-        $breadcrumbs->addRouteItem("Nova Exame", "exame_index");
+        $breadcrumbs->addRouteItem("Novo Exame", "exame_index");
 
         $exame = new Exame();
         $form = $this->createForm('AppBundle\Form\ExameType', $exame);
@@ -58,7 +58,7 @@ class ExameController extends Controller
             $em->persist($exame);
             $em->flush($exame);
 
-            return $this->redirectToRoute('exame_show', array('id' => $exame->getId()));
+            return $this->redirectToRoute('exame_index');
         }
 
         return $this->render('exame/new.html.twig', array(
@@ -67,21 +67,6 @@ class ExameController extends Controller
         ));
     }
 
-    /**
-     * Finds and displays a exame entity.
-     *
-     * @Route("/{id}", name="exame_show")
-     * @Method("GET")
-     */
-    public function showAction(Exame $exame)
-    {
-        $deleteForm = $this->createDeleteForm($exame);
-
-        return $this->render('exame/show.html.twig', array(
-            'exame' => $exame,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
 
     /**
      * Displays a form to edit an existing exame entity.
@@ -111,18 +96,15 @@ class ExameController extends Controller
     /**
      * Deletes a exame entity.
      *
-     * @Route("/{id}", name="exame_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="exame_delete", options={"expose"=true})
+     * @Method({"DELETE","GET"})
      */
-    public function deleteAction(Request $request, Exame $exame)
+    public function deleteAction(Exame $exame)
     {
-        $form = $this->createDeleteForm($exame);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($exame) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($exame);
-            $em->flush($exame);
+            $em->flush();
         }
 
         return $this->redirectToRoute('exame_index');

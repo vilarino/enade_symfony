@@ -20,7 +20,7 @@
             <th>Nomearquivo</th>
             <th>Mimetypearquivo</th>
             <th>Nome</th>
-            <th>Actions</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
@@ -31,14 +31,14 @@
                 <td>{{ arquivo.mimeTypeArquivo }}</td>
                 <td>{{ arquivo.nome }}</td>
                 {#<td>#}
-                    {#<ul>#}
-                        {#<li>#}
-                            {#<a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">show</a>#}
-                        {#</li>#}
-                        {#<li>#}
-                            {#<a href="{{ path('arquivo_edit', { 'exame': arquivo.id }) }}">edit</a>#}
-                        {#</li>#}
-                    {#</ul>#}
+                {#<ul>#}
+                {#<li>#}
+                {#<a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">show</a>#}
+                {#</li>#}
+                {#<li>#}
+                {#<a href="{{ path('arquivo_edit', { 'exame': arquivo.id }) }}">edit</a>#}
+                {#</li>#}
+                {#</ul>#}
                 {#</td>#}
             </tr>
         {% endfor %}
@@ -46,8 +46,8 @@
     </table>
 
     {#<ul>#}
-        {#<li>#}
-            {#<a href="{{ path('arquivo_new') }}">Create a new arquivo</a>#}
-        {#</li>#}
+    {#<li>#}
+    {#<a href="{{ path('arquivo_new') }}">Create a new arquivo</a>#}
+    {#</li>#}
     {#</ul>#}
 {% endblock %}

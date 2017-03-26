@@ -1,21 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Upload Arquivo ENADE</h1>
 
+    <legend>Upload Planilha ENADE</legend>
 
     {{ form_start(form, {'attr': {'class' : 'form-horizontal'}}) }}
 
     <div class="form-group">
-        <div class="col-md-12">
-            <label class="control-label">{{ form_label(form.arquivoVich) }}</label>
-            {{ form_widget(form.arquivoVich) }}
+        <label class="col-lg-2 control-label">{{ form_label(form.tipo) }}</label>
+        <div class="col-lg-10">
+            {{ form_widget(form.tipo, {'attr':{'class' : 'form-control'}}) }}
         </div>
     </div>
-
-
     <div class="form-group">
-        <div class="col-md-12">
+        <label class="col-lg-2 control-label">{{ form_label(form.arquivoVich) }}</label>
+        <div class="col-lg-10">
+            {{ form_widget(form.arquivoVich, {'attr':{'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
             {{ form_widget(form.save, { 'attr': {'class': 'btn btn-sm btn-success','row':'20'}}) }}
             ou
             <a class="btn btn-sm btn-default" href="{{ path('arquivo_index', {'exame' : arquivo.exame.id}) }}">Lista de

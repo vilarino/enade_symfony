@@ -16,33 +16,45 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Descricao</th>
+            <th>Descrição</th>
             <th>Ano</th>
-            <th>Actions</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
         {% for exame in exames %}
             <tr>
-                <td><a href="{{ path('exame_show', { 'id': exame.id }) }}">{{ exame.id }}</a></td>
                 <td>{{ exame.descricao }}</td>
                 <td>{{ exame.ano }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('exame_show', { 'id': exame.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('exame_edit', { 'id': exame.id }) }}">edit</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('arquivo_index', { 'exame':exame.id }) }}">planilhas</a>
-                        </li>
-                    </ul>
+
+                    <a href="{{ path('exame_edit', { 'id': exame.id }) }}"
+                       class="btn btn-default" data-toggle="tooltipe"
+                       title="Editar exame">
+                        Editar
+                    </a>
+
+                    <a href="{{ path('arquivo_index', { 'exame':exame.id }) }}"
+                       class="btn btn-info" data-toggle="tooltipe"
+                       title="Editar exame">
+                        Planilhas
+                    </a>
+
+                    {#<li>#}
+                    {#<a href="{{ path('arquivo_index', { 'exame':exame.id }) }}">planilhas</a>#}
+                    {#</li>#}
+                    {#</ul>#}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    {#<div class="well">#}
+        <a href="#"
+           class="btn btn-primary" data-toggle="tooltipe"
+           title="Editar exame">
+            Realizar extração e carga
+        </a>
+    {#</div>#}
 {% endblock %}

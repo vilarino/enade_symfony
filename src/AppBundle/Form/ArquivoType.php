@@ -17,8 +17,12 @@ class ArquivoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('arquivoVich', FileType::class, array(
-            'label' => ' ',
+        $builder->add('tipo', EntityType::class, array(
+            'class' => 'AppBundle\Entity\Tipo',
+            'choice_label' => 'descricao',
+            'required' => true
+        ))->add('arquivoVich', FileType::class, array(
+            'label' => 'Planiha',
             'required' => true
         ));
 
