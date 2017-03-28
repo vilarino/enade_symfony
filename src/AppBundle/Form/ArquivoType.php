@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Exame;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,7 +21,7 @@ class ArquivoType extends AbstractType
         $builder->add('tipo', EntityType::class, array(
             'class' => 'AppBundle\Entity\Tipo',
             'choice_label' => 'descricao',
-            'required' => true
+            'required' => true,
         ))->add('arquivoVich', FileType::class, array(
             'label' => 'Planiha',
             'required' => true

@@ -8,6 +8,7 @@ use AppBundle\Form\ArquivoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -30,8 +31,8 @@ class ArquivoController extends Controller
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addRouteItem("Home", "homepage");
-        $breadcrumbs->addRouteItem("Exame", "exame_index");
-        $breadcrumbs->addRouteItem("Planilhas", "arquivo_index", array(
+        $breadcrumbs->addRouteItem("Exames", "exame_index");
+        $breadcrumbs->addRouteItem("Arquivos", "arquivo_index", array(
             'exame' => $exame->getId()
         ));
 
@@ -49,60 +50,58 @@ class ArquivoController extends Controller
      */
     public function newAction(Request $request, Exame $exame)
     {
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addRouteItem("Home", "homepage");
-        $breadcrumbs->addRouteItem("Exame", "exame_index");
-        $breadcrumbs->addRouteItem("Planilhas", "arquivo_index", array(
-            'exame' => $exame->getId()
-        ));
-        $breadcrumbs->addRouteItem("Nova  Planilha", "exame_index");
+        try {
+//            echo phpinfo(); exit;
+            $breadcrumbs = $this->get("white_october_breadcrumbs");
+            $breadcrumbs->addRouteItem("Home", "homepage");
+            $breadcrumbs->addRouteItem("Exames", "exame_index");
+            $breadcrumbs->addRouteItem("Arquivos", "arquivo_index", array(
+                'exame' => $exame->getId()
+            ));
+            $breadcrumbs->addRouteItem("Novo Arquivo", "exame_index");
 
-        $arquivo = new Arquivo();
-        $arquivo->setExame($exame);
-        $form = $this->createForm(ArquivoType::class, $arquivo, array(
-            'action' => $this->generateUrl('arquivo_new',
-                array(
-                    'exame' => $exame->getId()
+            $arquivo = new Arquivo();
+            $arquivo->setExame($exame);
+            $form = $this->createForm(ArquivoType::class, $arquivo, array(
+                'action' => $this->generateUrl('arquivo_new',
+                    array(
+                        'exame' => $exame->getId()
+                    )
                 )
-            )
-        ));
+            ));
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $arquivoPost = $request->files->get('appbundle_arquivo');
-            $arquivo->setMimeTypeArquivo($arquivoPost['arquivoVich']->getClientMimeType());
-            $arquivo->setNomeArquivo($arquivoPost['arquivoVich']->getClientOriginalName());
+                $arquivoTipo = $this->getDoctrine()->getRepository('AppBundle:Arquivo')->findBy(array('tipo' => $arquivo->getTipo()));
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($arquivo);
-            $em->flush($arquivo);
+                if ($arquivoTipo) {
+                    throw new Exception('Já existe um arquivo pra esse tipo');
+                }
 
-            return $this->redirectToRoute('arquivo_index', array('exame' => $exame->getId()));
+                $arquivoPost = $request->files->get('appbundle_arquivo');
+                $arquivo->setMimeTypeArquivo($arquivoPost['arquivoVich']->getClientMimeType());
+                $arquivo->setNomeArquivo($arquivoPost['arquivoVich']->getClientOriginalName());
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($arquivo);
+                $em->flush();
+
+                return $this->redirectToRoute('arquivo_index', array('exame' => $exame->getId()));
+            }
+
+
+            return $this->render('arquivo/new.html.twig', array(
+                'arquivo' => $arquivo,
+                'form' => $form->createView(),
+            ));
+        } catch (\Exception $exc) {
+            var_dump($exc->getMessage());
+            exit;
         }
 
-        return $this->render('arquivo/new.html.twig', array(
-            'arquivo' => $arquivo,
-            'form' => $form->createView(),
-        ));
     }
-
-//    /*/**
-//     * Finds and displays a arquivo entity.
-//     *
-//     * @Route("/{id}", name="arquivo_show")
-//     * @Method("GET")
-//     */
-//    public function showAction(Arquivo $arquivo)
-//    {
-//        $deleteForm = $this->createDeleteForm($arquivo);
-//
-//        return $this->render('arquivo/show.html.twig', array(
-//            'arquivo' => $arquivo,
-//            'delete_form' => $deleteForm->createView(),
-//        ));
-//    }*/
 
     /**
      * Displays a form to edit an existing arquivo entity.
@@ -132,21 +131,18 @@ class ArquivoController extends Controller
     /**
      * Deletes a arquivo entity.
      *
-     * @Route("/{id}", name="arquivo_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="arquivo_delete", options={"expose"=true})
+     * @Method({"DELETE", "GET"})
      */
-    public function deleteAction(Request $request, Arquivo $arquivo)
+    public function deleteAction(Arquivo $arquivo)
     {
-        $form = $this->createDeleteForm($arquivo);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($arquivo) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($arquivo);
-            $em->flush($arquivo);
+            $em->flush();
         }
 
-        return $this->redirectToRoute('arquivo_index');
+        return $this->redirectToRoute('arquivo_index', array('exame' => $arquivo->getExame()->getId()));
     }
 
     /**

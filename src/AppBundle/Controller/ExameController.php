@@ -25,14 +25,18 @@ class ExameController extends Controller
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
-        $breadcrumbs->addRouteItem("Exame", "exame_index");
+        $breadcrumbs->addRouteItem("Exames", "exame_index");
 
         $em = $this->getDoctrine()->getManager();
 
         $exames = $em->getRepository('AppBundle:Exame')->findAll();
 
+
+        $this->temCarregados($exames);
+
         return $this->render('exame/index.html.twig', array(
             'exames' => $exames,
+            'temCarregado' => $this->temCarregados($exames)
         ));
     }
 
@@ -46,7 +50,7 @@ class ExameController extends Controller
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addRouteItem("Home", "homepage");
-        $breadcrumbs->addRouteItem("Exame", "exame_index");
+        $breadcrumbs->addRouteItem("Exames", "exame_index");
         $breadcrumbs->addRouteItem("Novo Exame", "exame_index");
 
         $exame = new Exame();
@@ -55,6 +59,9 @@ class ExameController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $exame->setCarregado(false);
+
             $em->persist($exame);
             $em->flush($exame);
 
@@ -76,6 +83,11 @@ class ExameController extends Controller
      */
     public function editAction(Request $request, Exame $exame)
     {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addRouteItem("Home", "homepage");
+        $breadcrumbs->addRouteItem("Exames", "exame_index");
+        $breadcrumbs->addRouteItem("Editar Exame", "exame_index");
+
         $deleteForm = $this->createDeleteForm($exame);
         $editForm = $this->createForm('AppBundle\Form\ExameType', $exame);
         $editForm->handleRequest($request);
@@ -123,5 +135,15 @@ class ExameController extends Controller
             ->setAction($this->generateUrl('exame_delete', array('id' => $exame->getId())))
             ->setMethod('DELETE')
             ->getForm();
+    }
+
+    private function temCarregados($exames)
+    {
+        foreach ($exames as $exame) {
+            if ($exame->getCarregado()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

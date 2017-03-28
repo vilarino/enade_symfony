@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <link href="{{ asset('bundles/app/assets/css/sweetalert.css') }}" rel="stylesheet">
-    <script src="{{ asset('bundles/app/assets/js/sweetalert.min.js') }}"></script>
-{% endblock %}
-
 {% block body %}
 
     {{ form_start(edit_form, {'attr': {'class' : 'form-horizontal'}}) }}
-    <legend>Novo Exame</legend>
+    <legend>Editar Exame</legend>
 
     <div class="form-group">
         <label class="col-lg-2 control-label">{{ form_label(edit_form.descricao) }}</label>
@@ -38,10 +33,6 @@
                    data-title="Excluir"> Deletar
                 </a>
             </td>
-            {#{{ form_start(delete_form) }}#}
-            {#<input class="btn btn-sm btn-danger pull-right" type="submit" value="Delete">#}
-            {#{{ form(delete_form._token) }}#}
-            {#{{ form_end(delete_form) }}#}
         </div>
     </div>
     {{ form(edit_form._token) }}

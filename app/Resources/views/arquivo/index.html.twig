@@ -2,52 +2,64 @@
 
 {% block body %}
 
-    <h1 class="page-header">
+    <h2 class="page-header">
+
         <span>
-            Planilhas
+            Arquivos
         </span>
 
         <span style="float: right"><a href="{{ path("arquivo_new",{'exame': exame.id}) }}" class="btn btn-primary">
-                    Nova Planilha
+                    Novo Arquivo
                 </a>
             </span>
-    </h1>
+    </h2>
 
     <table class="table">
         <thead>
         <tr>
-            {#<th>Id</th>#}
-            <th>Nomearquivo</th>
-            <th>Mimetypearquivo</th>
             <th>Nome</th>
+            <th>Tipo</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
         {% for arquivo in exame.arquivos %}
             <tr>
-                {#<td><a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">{{ arquivo.id }}</a></td>#}
                 <td>{{ arquivo.nomeArquivo }}</td>
-                <td>{{ arquivo.mimeTypeArquivo }}</td>
-                <td>{{ arquivo.nome }}</td>
-                {#<td>#}
-                {#<ul>#}
-                {#<li>#}
-                {#<a href="{{ path('arquivo_show', { 'id': arquivo.id }) }}">show</a>#}
-                {#</li>#}
-                {#<li>#}
-                {#<a href="{{ path('arquivo_edit', { 'exame': arquivo.id }) }}">edit</a>#}
-                {#</li>#}
-                {#</ul>#}
-                {#</td>#}
+                <td>{{ arquivo.tipo.descricao }}</td>
+                <td><a href="javascript:;" data-toggle="tooltip" arquivo-id="{{ arquivo.id }}"
+                       data-container="body"
+                       class="btn btn-sm btn-danger delete-arquivo"
+                       data-title="Excluir"> Deletar
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete-arquivo').click(function () {
+                var id = $(this).attr("arquivo-id");
 
-    {#<ul>#}
-    {#<li>#}
-    {#<a href="{{ path('arquivo_new') }}">Create a new arquivo</a>#}
-    {#</li>#}
-    {#</ul>#}
+                swal({
+                    title: "Tem certeza que deseja excluir este arquivo?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Excluir",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                }, function () {
+                    window.location.replace(Routing.generate('arquivo_delete', {id: id}));
+                });
+
+            });
+        });
+    </script>
 {% endblock %}

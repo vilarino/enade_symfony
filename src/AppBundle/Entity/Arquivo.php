@@ -65,7 +65,7 @@ class Arquivo
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tipo")
+     * @ORM\ManyToOne(targetEntity="Tipo", inversedBy="arquivos")
      * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
      */
     private $tipo;

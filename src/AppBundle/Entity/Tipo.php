@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,16 @@ class Tipo
      * @ORM\Column(name="descricao", type="string", length=255)
      */
     private $descricao;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Arquivo", mappedBy="tipo")
+     */
+    private $arquivos;
+
+    public function __construct()
+    {
+        $this->arquivos = new ArrayCollection();
+    }
 
 
     /**
@@ -62,5 +73,14 @@ class Tipo
     {
         return $this->descricao;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getArquivos()
+    {
+        return $this->arquivos;
+    }
+
 }
 

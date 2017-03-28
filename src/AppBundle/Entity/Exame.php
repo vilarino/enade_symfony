@@ -30,6 +30,13 @@ class Exame
     private $descricao;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="carregado", type="boolean", nullable=true)
+     */
+    private $carregado;
+
+    /**
      * @ORM\OneToMany(targetEntity="Arquivo", mappedBy="exame", cascade={"all"})
      */
     private $arquivos;
@@ -119,5 +126,22 @@ class Exame
     {
         $this->arquivos->add($arquivo);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCarregado()
+    {
+        return $this->carregado;
+    }
+
+    /**
+     * @param mixed $carregado
+     */
+    public function setCarregado($carregado)
+    {
+        $this->carregado = $carregado;
+    }
+
 }
 
