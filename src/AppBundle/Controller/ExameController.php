@@ -24,19 +24,16 @@ class ExameController extends Controller
     public function indexAction()
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("homepage"));
         $breadcrumbs->addRouteItem("Exames", "exame_index");
 
         $em = $this->getDoctrine()->getManager();
 
         $exames = $em->getRepository('AppBundle:Exame')->findAll();
 
-
-        $this->temCarregados($exames);
-
         return $this->render('exame/index.html.twig', array(
             'exames' => $exames,
-            'temCarregado' => $this->temCarregados($exames)
+            'temCarregados' => $this->temCarregados($exames),
+            'temPendentes' => $this->temPendentes($exames)
         ));
     }
 
@@ -49,7 +46,6 @@ class ExameController extends Controller
     public function newAction(Request $request)
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addRouteItem("Home", "homepage");
         $breadcrumbs->addRouteItem("Exames", "exame_index");
         $breadcrumbs->addRouteItem("Novo Exame", "exame_index");
 
@@ -84,7 +80,6 @@ class ExameController extends Controller
     public function editAction(Request $request, Exame $exame)
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addRouteItem("Home", "homepage");
         $breadcrumbs->addRouteItem("Exames", "exame_index");
         $breadcrumbs->addRouteItem("Editar Exame", "exame_index");
 
@@ -135,6 +130,16 @@ class ExameController extends Controller
             ->setAction($this->generateUrl('exame_delete', array('id' => $exame->getId())))
             ->setMethod('DELETE')
             ->getForm();
+    }
+
+    private function temPendentes($exames)
+    {
+        foreach ($exames as $exame) {
+            if (!$exame->getCarregado()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function temCarregados($exames)

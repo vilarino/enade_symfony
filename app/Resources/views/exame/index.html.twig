@@ -51,22 +51,16 @@
         </tbody>
     </table>
 
-    {#<div class="well">#}
-    <a href="#"
-       class="btn btn-primary" data-toggle="tooltipe"
-       title="Editar exame">
+
+    <a href="{{ path('executar') }}"
+       class="btn btn-primary {{ temPendentes == true ? '': 'disabled' }}" data-toggle="tooltipe"
+       title="Carra Data Ware">
         Realizar extração e carga
     </a>
 
 
     <a href="#"
-            {% if temCarregado %}
-                class="btn btn-danger"
-                {% else %}
-                class="btn btn-danger disabled"
-            {% endif %}
-
-
+       class="btn btn-danger {{ temCarregados == true ? '' : 'disabled' }}"
        data-toggle="tooltipe"
        title="Limpar data warehouse">
         Limpar data warehouse

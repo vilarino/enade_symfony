@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Tipo;
+
 /**
  * ArquivoRepository
  *
@@ -10,4 +12,13 @@ namespace AppBundle\Repository;
  */
 class ArquivoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTes()
+    {
+        return '54';
+    }
+//    public function buscarDidicionarioDados(Tipo $tipo, int $ano)
+//    {
+//        return $this->findOneBy(['tipo' => $tipo, 'ano' => $ano]);
+//    }
+
 }

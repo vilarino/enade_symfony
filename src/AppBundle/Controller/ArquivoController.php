@@ -30,7 +30,6 @@ class ArquivoController extends Controller
     public function indexAction(Exame $exame)
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
-        $breadcrumbs->addRouteItem("Home", "homepage");
         $breadcrumbs->addRouteItem("Exames", "exame_index");
         $breadcrumbs->addRouteItem("Arquivos", "arquivo_index", array(
             'exame' => $exame->getId()
@@ -51,9 +50,7 @@ class ArquivoController extends Controller
     public function newAction(Request $request, Exame $exame)
     {
         try {
-//            echo phpinfo(); exit;
             $breadcrumbs = $this->get("white_october_breadcrumbs");
-            $breadcrumbs->addRouteItem("Home", "homepage");
             $breadcrumbs->addRouteItem("Exames", "exame_index");
             $breadcrumbs->addRouteItem("Arquivos", "arquivo_index", array(
                 'exame' => $exame->getId()
