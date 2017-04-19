@@ -16,34 +16,39 @@ class Carga
 
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct()
     {
-        $this->entityManager = $entityManager;
+        /*EntityManager $entityManager
+        $this->entityManager = $entityManager;*/
     }
 
     public function carregarRegioes($regioes)
     {
+//        var_dump($regioes); exit;
         // salvar regiões no dw
     }
 
     public function carregarEstados($estados)
     {
-
+//            var_dump($estados); exit;
     }
 
     public function carregarCidades($cidades)
     {
-
+        var_dump($cidades);
+        exit;
     }
 
     public function carregarCategorias($categorias)
     {
-
+        /*var_dump($categorias);
+        exit;*/
     }
 
     public function carregarOrganizacoes($organizacoes)
     {
-
+        var_dump($organizacoes);
+        exit;
     }
 
     public function carregarDados($dados)
