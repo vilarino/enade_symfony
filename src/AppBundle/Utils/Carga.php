@@ -9,46 +9,75 @@
 namespace AppBundle\Utils;
 
 
-use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\Cidade;
+use AppBundle\Entity\Estado;
+use AppBundle\Entity\Regiao;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class Carga
 {
 
-    private $entityManager;
+    private $container;
+    private $em;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        /*EntityManager $entityManager
-        $this->entityManager = $entityManager;*/
+        $this->container = $container;
+        $this->em = $this->container->get('doctrine')->getManager();
     }
 
     public function carregarRegioes($regioes)
     {
-//        var_dump($regioes); exit;
-        // salvar regiões no dw
+        foreach ($regioes as $regiao) {
+            $dimRegiao = new Regiao();
+
+            $dimRegiao->setId($regiao['id']);
+            $dimRegiao->setNome($regiao['nome']);
+
+            $this->em->persist($dimRegiao);
+        }
+
+        $this->em->flush();
     }
 
     public function carregarEstados($estados)
     {
-//            var_dump($estados); exit;
+
+        foreach ($estados as $estado) {
+            $dimEstado = new Estado();
+
+            $dimEstado->setId($estado['id']);
+            $dimEstado->setNome($estado['nome']);
+
+            $this->em->persist($dimEstado);
+        }
+
+        $this->em->flush();
     }
 
     public function carregarCidades($cidades)
     {
-        var_dump($cidades);
-        exit;
+        foreach ($cidades as $cidade) {
+            $dimCidade = new Cidade();
+
+            $dimCidade->setId($cidade['id']);
+            $dimCidade->setNome($cidade['nome']);
+            $dimCidade->setSigaEstado($cidade['sigla_estado']);
+
+            $this->em->persist($dimCidade);
+        }
+        $this->em->flush();
+
     }
 
     public function carregarCategorias($categorias)
     {
-        /*var_dump($categorias);
-        exit;*/
+
     }
 
     public function carregarOrganizacoes($organizacoes)
     {
-        var_dump($organizacoes);
-        exit;
+
     }
 
     public function carregarDados($dados)

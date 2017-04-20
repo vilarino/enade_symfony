@@ -48,8 +48,36 @@ class ETLController extends Controller
                 $organizacoes = $this->get('extracao')->extrairOrganizacoes($arquivoDicionario->first());
                 $this->get('carga')->carregarOrganizacoes($organizacoes);
 
-
             }
+
+            $this->addFlash('success', 'Carga realizada com sucesso!');
+
+            return $this->redirect($this->generateUrl('exame_index'));
+
+        } catch (\Exception $exception) {
+            var_dump($exception->getMessage());
+            exit;
+        }
+
+    }
+
+    /**
+     * @Route("/limpar", name="limpar")
+     * @Method("GET")
+     */
+    public function limparAction()
+    {
+        set_time_limit(60 * 10);
+
+        try {
+
+            $this->get('descarga')->descargaRegioes();
+            $this->get('descarga')->descargaEstados();
+            $this->get('descarga')->descargaCidades();
+
+            $this->addFlash('success', 'Registros removidos com sucesso');
+
+            return $this->redirect($this->generateUrl('exame_index'));
 
 
         } catch (\Exception $exception) {

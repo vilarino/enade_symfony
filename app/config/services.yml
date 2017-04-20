@@ -6,10 +6,14 @@ parameters:
 services:
     carga:
         class: AppBundle\Utils\Carga
-        arguments: [doctrine.orm.entity_manager]
+        arguments: ["@service_container"]
 
     extracao:
         class: AppBundle\Utils\Extracao
+        arguments: ["@service_container"]
+
+    descarga:
+        class: AppBundle\Utils\Descarga
         arguments: ["@service_container"]
 
 #    service_name:

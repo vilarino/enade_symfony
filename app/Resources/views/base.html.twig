@@ -34,6 +34,12 @@
     </div>
 </nav>
 <div class="container">
+    {#{% for flash_message in app.session.flashBag.get('success') %}#}
+        {#<div class="alert alert-dismissible alert-success">#}
+            {#{{ flash_message }}#}
+        {#</div>#}
+    {#{% endfor %}#}
+    {% include 'BraincraftedBootstrapBundle::flash.html.twig' with { 'close': true } %}
     {{ wo_render_breadcrumbs() }}
     {% block body %}
 
