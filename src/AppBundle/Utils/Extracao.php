@@ -15,6 +15,7 @@ class Extracao
 {
 
     private $container;
+    private $diretorioArquivos;
 
     public function __construct(Container $container)
     {
@@ -103,7 +104,6 @@ class Extracao
 
         }
 
-
         return $cidades;
     }
 
@@ -155,9 +155,9 @@ class Extracao
 
     public function extrairDados(Arquivo $arquivoDados)
     {
-        $dados = [];
+        $csv = new CSV($this->diretorioArquivos . $arquivoDados->getNome());
 
-        return $dados;
+        return $csv->getDados();
     }
 
 }

@@ -41,4 +41,25 @@ class Descarga
         $qb->delete('AppBundle\Entity\Cidade', 'a')
             ->getQuery()->getResult();
     }
+
+    public function descargaCursos()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\Curso', 'a')
+            ->getQuery()->getResult();
+    }
+
+    public function descargaOrganizacoes()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\Organizacao', 'a')
+            ->getQuery()->getResult();
+    }
+
+    public function descargaAnos()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\Ano', 'a')
+            ->getQuery()->getResult();
+    }
 }

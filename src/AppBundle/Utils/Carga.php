@@ -9,9 +9,14 @@
 namespace AppBundle\Utils;
 
 
+use AppBundle\Entity\Ano;
 use AppBundle\Entity\Cidade;
+use AppBundle\Entity\Curso;
 use AppBundle\Entity\Estado;
+use AppBundle\Entity\Exame;
+use AppBundle\Entity\Organizacao;
 use AppBundle\Entity\Regiao;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class Carga
@@ -37,6 +42,17 @@ class Carga
             $this->em->persist($dimRegiao);
         }
 
+        $this->em->flush();
+    }
+
+    public function carregarAno(Exame $exame)
+    {
+
+        $dimAno = new Ano();
+        $dimAno->setId($exame->getAno());
+        $dimAno->setAno($exame->getAno());
+
+        $this->em->persist($dimAno);
         $this->em->flush();
     }
 
@@ -72,17 +88,55 @@ class Carga
 
     public function carregarCategorias($categorias)
     {
+        foreach ($categorias as $categoria) {
+            $dimCurso = new Curso();
+
+            $dimCurso->setId($categoria['id']);
+            $dimCurso->setNome($categoria['nome']);
+            $this->em->persist($dimCurso);
+        }
+        $this->em->flush();
 
     }
 
     public function carregarOrganizacoes($organizacoes)
     {
+        foreach ($organizacoes as $organizacao) {
+            $dimOrganizacoes = new Organizacao();
+
+            $dimOrganizacoes->setId($organizacao['id']);
+            $dimOrganizacoes->setNome($organizacao['nome']);
+            $this->em->persist($dimOrganizacoes);
+        }
+        $this->em->flush();
 
     }
 
     public function carregarDados($dados)
     {
 
+        $mysql = new MySql($this->container);
+
+        $mysql->criarTabela('enade', explode(',', $dados[0]));
+
+        $bloco = [];
+
+        $colunas = $dados[0];
+
+        unset($dados[0]);
+
+        $quantidade = count($dados);
+
+        $teste = 0;
+        for ($i = 1; $i <= $quantidade; $i++) {
+            $bloco[] = $dados[$i];
+            if ($i % 5000 == 0 || $i == ($quantidade)) {
+                $teste += count($bloco);
+                $mysql->inserirDados($colunas, $bloco);
+                $bloco = [];
+            }
+        }
+        return true;
     }
 
 
