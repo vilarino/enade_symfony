@@ -58,10 +58,8 @@
         Realizar extração e carga
     </a>
 
-    {#{{ temCarregados == true ? '' : 'disabled' }}#}
-    <a href="{{ path('limpar') }}"
-       class="btn btn-danger"
-       data-toggle="tooltipe"
+    <a href="{{ path('etl_limpar') }}"
+       class="btn btn-danger" data-toggle="tooltipe" {{ temCarregados == true ? '' : 'disabled' }}
        title="Limpar data warehouse">
         Limpar data warehouse
     </a>

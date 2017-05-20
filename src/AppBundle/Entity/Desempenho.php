@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  *
- * @ORM\Table(name="enade_dw.DIM_CURSO")
+ * @ORM\Table(name="enade_dw.FATO_DESEMPENHO")
  * @ORM\Entity
  */
 class Desempenho
@@ -22,6 +22,7 @@ class Desempenho
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -68,18 +69,18 @@ class Desempenho
     private $id_dim_ano;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_dim_aluno", type="integer", nullable=false)
+     * One Product has One Shipping.
+     * @ORM\OneToOne(targetEntity="Aluno")
+     * @ORM\JoinColumn(name="id_dim_aluno", referencedColumnName="id")
      */
     private $id_dim_aluno;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="nota", type="integer", nullable=false)
+     * @ORM\Column(name="notaGeral", type="integer", nullable=false)
      */
-    private $nota;
+    private $notaTotal;
 
     /**
      * @var integer
@@ -201,53 +202,52 @@ class Desempenho
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getIdDimAluno(): int
+    public function getIdDimAluno()
     {
         return $this->id_dim_aluno;
     }
 
     /**
-     * @param int $id_dim_aluno
+     * @param mixed $id_dim_aluno
      */
-    public function setIdDimAluno(int $id_dim_aluno)
+    public function setIdDimAluno($id_dim_aluno)
     {
         $this->id_dim_aluno = $id_dim_aluno;
     }
 
+
     /**
-     * @return int
+     * @return string
      */
-    public function getNota(): int
+    public function getNotaTotal(): string
     {
-        return $this->nota;
+        return $this->notaTotal;
     }
 
     /**
-     * @param int $nota
+     * @param string $notaTotal
      */
-    public function setNota(int $nota)
+    public function setNotaTotal(string $notaTotal)
     {
-        $this->nota = $nota;
+        $this->notaTotal = $notaTotal;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getNotaComponenteEspecifico(): int
+    public function getNotaComponenteEspecifico(): string
     {
         return $this->notaComponenteEspecifico;
     }
 
     /**
-     * @param int $notaComponenteEspecifico
+     * @param string $notaComponenteEspecifico
      */
-    public function setNotaComponenteEspecifico(int $notaComponenteEspecifico)
+    public function setNotaComponenteEspecifico(string $notaComponenteEspecifico)
     {
         $this->notaComponenteEspecifico = $notaComponenteEspecifico;
     }
-
-
 
 }

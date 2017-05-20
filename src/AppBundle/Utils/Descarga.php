@@ -56,10 +56,24 @@ class Descarga
             ->getQuery()->getResult();
     }
 
+    public function descargaAluno()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\Aluno', 'a')
+            ->getQuery()->getResult();
+    }
+
     public function descargaAnos()
     {
         $qb = $this->em->createQueryBuilder();
         $qb->delete('AppBundle\Entity\Ano', 'a')
+            ->getQuery()->getResult();
+    }
+
+    public function descargaDesempenho()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\Desempenho', 'a')
             ->getQuery()->getResult();
     }
 }
