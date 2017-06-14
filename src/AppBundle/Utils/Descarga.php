@@ -63,6 +63,13 @@ class Descarga
             ->getQuery()->getResult();
     }
 
+    public function descargaTipoInstituicao()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete('AppBundle\Entity\TipoInstituicao', 'a')
+            ->getQuery()->getResult();
+    }
+
     public function descargaAnos()
     {
         $qb = $this->em->createQueryBuilder();

@@ -53,21 +53,29 @@ class ETLController extends Controller
                 $organizacoes = $this->get('extracao')->extrairOrganizacoes($arquivoDicionario->first());
                 $this->get('carga')->carregarOrganizacoes($organizacoes);
 
+
+                $tipos = $this->get('extracao')->extrairTiposInstituicao($arquivoDicionario->first());
+                $this->get('carga')->carregarTipos($tipos);
+
                 $arquivoDados = $exame->getArquivos()->filter(function ($arquivo) {
                     return $arquivo->getTipo()->getId() === Tipo::DADOS;
                 });
 
-                $dados = $this->get('extracao')->extrairDados($arquivoDados->first());
+                /*$dados = $this->get('extracao')->extrairDados($arquivoDados->first());
+                $this->get('carga')->carregarDados($dados);*/
 
-                $this->get('carga')->carregarDados($dados);
+                $exame->setCarregado(true);
+                $this->getDoctrine()->getManager()->persist($exame);
 
-                $this->addFlash('success', 'Foram carregados ' . count($dados) . ' para o exame de ' . $exame->getAno());
+                $this->addFlash('success', 'Foram carregados ');
+//                $this->addFlash('success', 'Foram carregados ' . count($dados) . ' para o exame de ' . $exame->getAno());
             }
 
             $this->getDoctrine()->getManager()->flush();
 
 
-            return $this->redirect($this->generateUrl('etl_importar'));
+            return $this->importarTabelaFato();
+//          return $this->redirect($this->generateUrl('etl_importar'));
 
         } catch (\Exception $exception) {
 //            echo($exception->getTraceAsString());
@@ -94,6 +102,7 @@ class ETLController extends Controller
             $this->get('descarga')->descargaOrganizacoes();
             $this->get('descarga')->descargaAnos();
             $this->get('descarga')->descargaAluno();
+            $this->get('descarga')->descargaTipoInstituicao();
 
             $this->addFlash('success', 'Registros removidos com sucesso');
 
@@ -145,7 +154,6 @@ class ETLController extends Controller
                         continue;
                     }
 
-
                     foreach ($dados as $dado) {
 
                         $dimAluno = new Aluno();
@@ -155,8 +163,10 @@ class ETLController extends Controller
                         $dimAluno->setTipoInscricao($dado['tp_inscricao'] === '0' ? 'Concluinte' : 'Ingressante');
                         $dimAluno->setAnoInicionGraduacao($dado['ano_in_grad']);
                         $dimAluno->setAnoFim2grau($dado['ano_fim_2g']);
+                        $dimAluno->setGrupo(intval($dado['nu_idade']) <= 25 ? 'Grupo 1' : 'Grupo 2');
                         $dimAluno->setNotaComponenteEspecifico(is_null($dado['nt_ce']) ? 0 : $dado['nt_ce']);
                         $dimAluno->setNotaTotal(is_null($dado['nt_ger']) ? 0 : $dado['nt_ger']);
+                        $dimAluno->setDiferencaEnsinoMedioGraduacao(intval($dado['ano_in_grad']) - intval($dado['ano_fim_2g']));
                         $dimAluno->setTurnoAula($this->getTurno($dado));
 
                         $this->getDoctrine()->getManager()->persist($dimAluno);
@@ -166,9 +176,10 @@ class ETLController extends Controller
                         $desempenho->setIdDimEstado($dado['co_uf_curso']);
                         $desempenho->setIdDimMunicipio($dado['co_munic_curso']);
                         $desempenho->setIdDimCurso($dado['co_grupo']);
-                        $desempenho->setIdDimOrganizacao($dado['co_orgac']);
+                        $desempenho->setIdDimOrganizacao(intval($dado['co_orgac']));
                         $desempenho->setIdDimAno($dado['nu_ano']);
                         $desempenho->setIdDimAluno($dimAluno);
+                        $desempenho->setIdDimTipoinstituicao($dado['co_catad']);
                         $desempenho->setNotaComponenteEspecifico(is_null($dado['nt_ce']) ? 0 : $dado['nt_ce']);
                         $desempenho->setNotaTotal(is_null($dado['nt_ger']) ? 0 : $dado['nt_ger']);
                         $this->getDoctrine()->getManager()->persist($desempenho);
@@ -184,6 +195,8 @@ class ETLController extends Controller
                 $this->getDoctrine()->getManager()->persist($exame);
                 $this->getDoctrine()->getManager()->flush();
             }
+
+            $this->addFlash('success', 'Registros carregados com sucesso');
 
             return $this->redirect($this->generateUrl('exame_index'));
 

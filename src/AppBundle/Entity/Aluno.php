@@ -36,7 +36,7 @@ class Aluno
     /**
      * @var string
      *
-     * @ORM\Column(name="sexo", type="integer", nullable=false)
+     * @ORM\Column(name="sexo", type="string", nullable=false)
      */
     private $sexo;
 
@@ -71,6 +71,13 @@ class Aluno
     /**
      * @var string
      *
+     * @ORM\Column(name="grupo", type="integer", nullable=false)
+     */
+    private $grupo;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="notaGeral", type="string", nullable=false)
      */
     private $notaTotal;
@@ -81,6 +88,14 @@ class Aluno
      * @ORM\Column(name="turnoAula", type="string", nullable=false)
      */
     private $turnoAula;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="diferencaEnsinoMedioGraduacao", type="integer", nullable=false)
+     */
+    private $diferencaEnsinoMedioGraduacao;
+
 
     /**
      * @return int
@@ -224,6 +239,38 @@ class Aluno
     public function setTurnoAula(string $turnoAula)
     {
         $this->turnoAula = $turnoAula;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGrupo(): string
+    {
+        return $this->grupo;
+    }
+
+    /**
+     * @param string $grupo
+     */
+    public function setGrupo(string $grupo)
+    {
+        $this->grupo = $grupo;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDiferencaEnsinoMedioGraduacao(): int
+    {
+        return $this->diferencaEnsinoMedioGraduacao;
+    }
+
+    /**
+     * @param int $diferencaEnsinoMedioGraduacao
+     */
+    public function setDiferencaEnsinoMedioGraduacao(int $diferencaEnsinoMedioGraduacao)
+    {
+        $this->diferencaEnsinoMedioGraduacao = $diferencaEnsinoMedioGraduacao;
     }
 
 }

@@ -16,6 +16,7 @@ use AppBundle\Entity\Estado;
 use AppBundle\Entity\Exame;
 use AppBundle\Entity\Organizacao;
 use AppBundle\Entity\Regiao;
+use AppBundle\Entity\TipoInstituicao;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
@@ -107,6 +108,19 @@ class Carga
             $dimOrganizacoes->setId($organizacao['id']);
             $dimOrganizacoes->setNome($organizacao['nome']);
             $this->em->persist($dimOrganizacoes);
+        }
+        $this->em->flush();
+
+    }
+
+    public function carregarTipos($tipos)
+    {
+        foreach ($tipos as $tipo) {
+            $dimTipo = new TipoInstituicao();
+
+            $dimTipo->setId($tipo['id']);
+            $dimTipo->setNome($tipo['nome']);
+            $this->em->persist($dimTipo);
         }
         $this->em->flush();
 

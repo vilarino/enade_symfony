@@ -69,6 +69,13 @@ class Desempenho
     private $id_dim_ano;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_dim_tipoinstituicao", type="integer", nullable=false)
+     */
+    private $id_dim_tipoinstituicao;
+
+    /**
      * One Product has One Shipping.
      * @ORM\OneToOne(targetEntity="Aluno")
      * @ORM\JoinColumn(name="id_dim_aluno", referencedColumnName="id")
@@ -248,6 +255,22 @@ class Desempenho
     public function setNotaComponenteEspecifico(string $notaComponenteEspecifico)
     {
         $this->notaComponenteEspecifico = $notaComponenteEspecifico;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdDimTipoinstituicao()
+    {
+        return $this->id_dim_tipoinstituicao;
+    }
+
+    /**
+     * @param mixed $id_dim_tipoinstituicao
+     */
+    public function setIdDimTipoinstituicao($id_dim_tipoinstituicao)
+    {
+        $this->id_dim_tipoinstituicao = $id_dim_tipoinstituicao;
     }
 
 }

@@ -153,6 +153,29 @@ class Extracao
         return $organizacoes;
     }
 
+    public function extrairTiposInstituicao($arquivoDicionario){
+        $tipos = [];
+
+        // Carregando o arquivo
+        $objPHPExcel = \PHPExcel_IOFactory::load($this->diretorioArquivos . $arquivoDicionario->getNome());
+
+        // Pegando a célula com as informações
+        $cell = $objPHPExcel->getActiveSheet()->getCell('F7');
+
+        $str = $cell->getValue();
+        $tiposComNumero = explode(PHP_EOL, $str);
+
+        foreach ($tiposComNumero as $tipo) {
+            $tipoSeparadoDoNumero = explode('=', $tipo);
+            $tipos[] = [
+                'id' => trim($tipoSeparadoDoNumero[0]),
+                'nome' => trim($tipoSeparadoDoNumero[1])
+            ];
+        }
+
+        return $tipos;
+    }
+
     public function extrairDados(Arquivo $arquivoDados)
     {
         $csv = new CSV($this->diretorioArquivos . $arquivoDados->getNome());
